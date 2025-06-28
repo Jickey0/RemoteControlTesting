@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head><title>Manual UE Property Read</title></head>
+<body>
+  <h1>Manual Read from UE</h1>
+  <form method="POST">
+    <button type="submit" name="action" value="request_all_weather_data">Fetch All Weather Params</button>
+    <button type="submit" name="action" value="StressTest"> Stress Test </button>
+
+    <a href="{{ url_for('changeWeather') }}">Change "Time of Day"</a>
+  <!--<img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2f9e8780-1e9b-4920-85b8-bb5270cb1e1e/dg37osc-1d6b2c2a-f025-4881-b742-47b6408f1d6c.jpg/v1/fill/w_1280,h_1703,q_75,strp/gojo_satoru_jujutsu_kaisen_season_2_by_nico2713_dg37osc-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTcwMyIsInBhdGgiOiJcL2ZcLzJmOWU4NzgwLTFlOWItNDkyMC04NWI4LWJiNTI3MGNiMWUxZVwvZGczN29zYy0xZDZiMmMyYS1mMDI1LTQ4ODEtYjc0Mi00N2I2NDA4ZjFkNmMuanBnIiwid2lkdGgiOiI8PTEyODAifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.SZT_kvya8EULAQ19CNjJupErJC_tyEyBwaDb_qJRpwg" alt="Online image" width="300" style="border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+  -->
+
+  </form>
+  
+  {% if result %}
+  <h2>Result:</h2>
+  <pre>{{ result | tojson(indent=2) }}</pre>
+  {% endif %}
+</body>
+</html>

@@ -1,0 +1,21 @@
+[
+  "Time of Day",
+  "Animate Time of Day",
+  "Day Length",
+  "Cloud Coverage",
+  "Cloud Speed",
+  "Sun Light Intensity",
+  "Sun Yaw",
+  "Sun Pitch",
+  "Moon Light Intensity",
+  "Moon Phase",
+  "Stars Intensity",
+  "Base Fog Density",
+  "Sky Light Intensity",
+  "Use Auroras",
+  "Aurora Intensity",
+  "Color Mode",
+  "Contrast",
+  "Saturation",
+  "Volumetric Clouds Scale"
+]
