@@ -1,4 +1,6 @@
 from flask import Flask, request, jsonify, render_template
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 import requests
 from helpers import WeatherGetRequest
 import json
@@ -6,7 +8,7 @@ import time
 
 app = Flask(__name__)
 
-UE_PROPS_BASE_URL = 'http://10.3.101.242:30010/remote/object/property'
+UE_PROPS_BASE_URL = 'http://localhost:30010/remote/preset/MyRemote/property/Time of Day'
 
 request_all_weather_data = {"objectPath" : "/Game/Main.Main:PersistentLevel.Ultra_Dynamic_Sky_C_1", "access" : "READ_ACCESS"}
 
@@ -65,7 +67,7 @@ def changeWeather():
 
     if request.method == "POST":
         try:
-            number = float(request.form["number"])
+            number = request.form["number"]
             result = f"Changing Time of Day to: {number}"
             
             # format to JSON request
@@ -79,5 +81,40 @@ def changeWeather():
             result = "Please enter a valid number."
 
         return render_template("changeWeather.html", result=result)
+
+
+@app.route('/update-time', methods=['POST', 'GET'])
+def update_time():
+    return render_template("update-time.html")
+
+# Set up limiter with default key function to use client IP
+limiter = Limiter(key_func=get_remote_address)
+limiter.init_app(app)
+
+last_val = 0
+session = requests.Session()
+
+@app.route('/update-value', methods=['POST'])
+@limiter.limit("1 per second")  # limit to 1 requests per second per client IP
+def update_value():
+    global last_val
+    global session
+
+    data = request.get_json()
+    value = float(data.get('value'))
+    print(value)
+
+    if value != last_val:
+        print(f"Changing Time of Day to: {value}")
+        change_time_of_day = WeatherGetRequest("Time of Day", value)
+
+        response = session.put(UE_PROPS_BASE_URL, json=change_time_of_day)
+        print("Status Code:", response.status_code)
+        
+        return jsonify({"status": "success", "received": value})
+    else:
+        last_val = value
+
+
 if __name__ == '__main__':
     app.run(port=5000)
